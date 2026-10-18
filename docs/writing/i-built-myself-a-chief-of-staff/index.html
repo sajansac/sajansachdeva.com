@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>I Built Myself a Chief of Staff · Sajan Sachdeva</title>
+<meta name="description" content="Markdown files, an OS timer, and an agent named Donna — and what it cost me to learn that guardrails are the product.">
+<link rel="canonical" href="https://sajansachdeva.com/writing/i-built-myself-a-chief-of-staff/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="I Built Myself a Chief of Staff">
+<meta property="og:description" content="Markdown files, an OS timer, and an agent named Donna — and what it cost me to learn that guardrails are the product.">
+<meta property="og:url" content="https://sajansachdeva.com/writing/i-built-myself-a-chief-of-staff/">
+<meta property="og:site_name" content="Sajan Sachdeva">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#131416" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="alternate" type="application/rss+xml" title="Sajan Sachdeva" href="/feed.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+<script>
+(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
+</script>
+</head>
+<body>
+<header class="site-head"><div class="wrap">
+  <a class="wordmark" href="/">Sajan Sachdeva</a>
+  <nav class="nav" aria-label="Main"><a href="/" aria-current="page">Writing</a><a href="/about/">About</a>
+    <button class="theme-toggle" type="button" aria-label="Switch light or dark theme"><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+  </nav>
+</div></header>
+<main>
+<article class="wrap">
+  <header class="post-head">
+    <p class="post-meta"><time datetime="2026-06-10">10 Jun 2026</time> · 10 min read</p>
+    <h1>I Built Myself a Chief of Staff</h1>
+    <p class="dek">Markdown files, an OS timer, and an agent named Donna — and what it cost me to learn that guardrails are the product.</p>
+  </header>
+  <div class="prose"><p>The most reliable colleague I have doesn&rsquo;t exist.</p>
+<p>Her name is Donna — yes, from <em>Suits</em> — and every morning she emails me a brief. The three things that actually matter today. Two emails that need my eyes. What&rsquo;s been parked, and why. My calendar is already blocked, and every block carries the ID of the task it serves, so the day never needs re-deriving from memory. I read that brief the way heads of state read their morning intelligence digest: slowly, with coffee, before the world starts asking for things.</p>
+<p>Donna is an AI agent. Under her sits a system I&rsquo;ve built out of the most boring infrastructure I could find: plain Markdown files, an OS timer, and a strict constitution. This is the story of that system — how it&rsquo;s wired, why it&rsquo;s shaped like a brain, and the mistakes it made on my behalf before I understood where the hard limits had to go.</p>
+<h2>The job is decisions, not admin</h2>
+<p>I&rsquo;m a product manager at Amazon. The topics I deal with are complex and interlocking — a delivery-window question touches lead times, which touch capacity planning, which touches a chargeback policy owned by a team three orgs away. On a good day, my actual job is making a small number of high-quality decisions. On a normal day, that job arrives buried in admin: triaging email, filing notes, moving information between tools, reconstructing &ldquo;what did we agree last month?&rdquo; from a chat scroll.</p>
+<p>The standard AI setup doesn&rsquo;t fix this, because chat assistants are <em>pull</em>. You open a tab, you ask, you get an answer, and the context dies when the tab closes. That breaks the moment your work outlives one conversation — when a decision made on Tuesday needs to shape an email on Friday. I didn&rsquo;t want a better chat window. I wanted a chief of staff: something that pushes, remembers, and prepares.</p>
+<h2>Two laws, copied from a brain</h2>
+<p>Everything in the system obeys two principles, and both are stolen from how a brain works.</p>
+<p><strong>First: two layers of memory.</strong> A fast, messy layer you write to without thinking, and a slow, curated layer you trust. Conflating the two is the classic note-taking failure — you end up with either a pristine system you never write to, or a junk drawer you can&rsquo;t rely on. So capture is cheap and deliberately lossy-forward (over-capture, drop later), while curation is slow and gated. Exactly like short-term and long-term memory.</p>
+<p><strong>Second: three verbs.</strong> Every piece of information that enters my world does exactly one of three things — <strong>IN</strong> (get captured), <strong>FILE</strong> (get sorted into permanent memory), or <strong>DO</strong> (become scheduled work). Each verb is owned by a separate process, and the processes never reach into each other&rsquo;s territory. The capture process can&rsquo;t write to the curated brain. The filing process can&rsquo;t touch my calendar. That separation is what keeps the whole thing debuggable as it grows — and it&rsquo;s also why I trust it.</p>
+<p><a href="/img/chief-of-staff-at-a-glance.png" target="_blank" rel="noopener"><img alt="The system at a glance: two loops around one inbox file" src="/img/chief-of-staff-at-a-glance.png" /></a></p>
+<h2>A junk drawer I can trust</h2>
+<p>The fast layer is a single append-only file called <code>inbox.md</code>. Timestamped one-liners. No schema, no ceremony.</p>
+<p>The design choice that matters: capture is <em>automatic and unprompted</em>. During any working session, when something notable surfaces — a fact, a decision, a commitment, a stakeholder&rsquo;s exact words — the agent appends a dated line to the inbox without asking me. I can force a capture (&ldquo;log this&rdquo;) or suppress one (&ldquo;off the record&rdquo;), but the default is that nothing gets lost because I was too busy to write it down. A junk line costs nothing to delete later. A lost signal is gone forever.</p>
+<p>Then there&rsquo;s the part that changed everything: a timer. Every morning, before I&rsquo;m at my desk, an unattended agent session wakes up, reads my email and chat, judges what&rsquo;s material against my live workstreams and key people, and writes a digest into the inbox. By the time I sit down, the outside world has already been triaged. The single highest-leverage change in the whole system was this flip from pull to push — from &ldquo;I have to remember to ask&rdquo; to &ldquo;it&rsquo;s waiting for me.&rdquo; A small hook completes the trick: every new session starts pre-loaded with the recent inbox tail and the vault&rsquo;s index, so the agent is never cold.</p>
+<p>And why flat files instead of a database? Because when something misbehaves, I debug a file, not a service. Everything in this system can be inspected with <code>cat</code> and <code>grep</code>.</p>
+<h2>The vault: a wiki that maintains itself</h2>
+<p>The slow layer is where it gets interesting. My permanent memory is a curated vault of Markdown pages that I browse in Obsidian — projects, people, systems, concepts, decisions — densely wikilinked into something that behaves less like a folder of notes and more like a neural network. If I open the page on delivery windows, it&rsquo;s linked to lead times, to chargebacks, to a capacity workflow we&rsquo;re building. Every topic in my world knows which other topics it touches.</p>
+<p>Here&rsquo;s the thesis behind it. Every knowledge system ever invented — Zettelkasten, Notion, the wiki you abandoned — is good at <em>capture</em>. None of them solve <em>maintenance</em>. Keeping cross-links current, flagging contradictions when a new source disagrees with an old one, re-summarising as understanding evolves: that work grows faster than the value of the collection, so humans give up, and the second brain rots into a junk drawer.</p>
+<p>The way out is a division of labour: <strong>capture needs human taste; maintenance needs infinite patience.</strong> So I split them. I decide what enters the vault and what it means. The LLM does everything else — summarising, cross-referencing, filing, bookkeeping. It doesn&rsquo;t get bored, so the maintenance cost that kills every human wiki drops toward zero.</p>
+<p>This is an old dream. In 1945, Vannevar Bush described the Memex: a personal knowledge store where associative trails between documents matter as much as the documents themselves. The piece he could never solve was who does the labour of maintaining the trails. Eighty years later, there&rsquo;s an answer.</p>
+<p>The vault runs on a small set of named operations. <em>Ingest</em> reads a source in full, proposes which pages it should touch, and waits for my go-ahead before writing — one dense source can update ten or fifteen pages. <em>Query</em> answers questions with citations and is forbidden from modifying anything; reading and writing never mix. <em>Lint</em> is the maintenance sweep no human ever does voluntarily: find contradictions between pages, flag stale claims, surface topics mentioned three times that deserve their own page. And two disciplines run through all of it: nothing fabricated, ever — an inferred claim is marked <code>(inferred)</code>, never laundered into fact — and contradictions are surfaced, not silently resolved. The vault is allowed to hold tension. Real knowledge does.</p>
+<p>The framing I keep coming back to: Obsidian is the IDE, the LLM is the programmer, and the wiki is the codebase. I read; it writes; the knowledge compounds.</p>
+<h2>Evenings end with one word</h2>
+<p>Each evening I type one word: <strong>file</strong>.</p>
+<p>The filing agent reads the inbox, the day&rsquo;s meeting notes, the chat logs — and sorts. The unambiguous, primary-source items get filed into the vault automatically. Everything that requires judgment gets surfaced back to me in a tight &ldquo;needs review / needs action&rdquo; report. It is conservative by design: when in doubt, it leaves the item where it is and flags it, rather than guessing its way into my permanent memory.</p>
+<p>This is the gate between the two layers, and it&rsquo;s where the cognition lives. Low friction going in, high scrutiny going through. Not every email I receive deserves to become a permanent fact about my world — but every email gets <em>considered</em>.</p>
+<p>One small trick connects knowledge to action: anything carrying an ask, a deadline, or a decision gets a single tag at capture time. The filing process ignores the tag and files the facts. The scheduling process consumes <em>only</em> the tagged items. Two systems, one shared file, one discriminating tag — and they never collide.</p>
+<h2>Mornings start with &ldquo;what&rsquo;s cooking&rdquo;</h2>
+<p>Which brings us back to Donna. She owns the action loop, and her core rule is what I call the triple-record: every real task exists in three places or it doesn&rsquo;t exist at all — a row in the task log with a stable ID, a to-do in the task app, and a calendar block whose title carries that same ID. If only two of the three exist, the job is half-done.</p>
+<p>She&rsquo;s opinionated about priority (importance times urgency, with stakeholder seniority as a signal), she reads the <em>live</em> calendar before proposing anything, and she respects red lines I&rsquo;ve drawn around my own time — no work blocks before a set hour, lunch is sacred, focus days stay whole. She proposes; she does not book over my life.</p>
+<p>Because I filed the night before, she&rsquo;s current. So my first move of the day is asking her what&rsquo;s cooking, and my second is reading the brief — in detail, every line. Then I go straight to the two or three things that need my actual brain: reading deeply, deciding. The stakeholder notes get drafted for me, in my voice, by a writer skill that carries my house style — Donna doesn&rsquo;t write them herself; she frames the job and hands it to a specialist, the way a real chief of staff would. Nothing it drafts exists anywhere except a drafts folder until I&rsquo;ve approved the exact words. The file-moving, the log-keeping, the formatting — none of that touches my morning anymore.</p>
+<h2>The hits I took</h2>
+<p>Now the part most write-ups of AI systems skip.</p>
+<p>This system has embarrassed me. Early on, I let it draft and send email with too much autonomy, and one went out carrying information that was wrong. Not catastrophically wrong — but wrong, with my name on it, read by people whose time I respect. I sent the correction myself the same day and owned it. The model hadn&rsquo;t failed; my architecture had. I had granted autonomy in exactly the place where mistakes are most expensive: the moment something leaves my machine and lands in front of another human.</p>
+<p>So I rebuilt around one constitutional rule: <strong>nothing outbound without my explicit, message-specific approval.</strong> No email, no chat message, no invite goes out without me seeing the exact text. Draft, show, wait. This rule outranks every other instruction in the system.</p>
+<p>And for anything that reaches my manager or senior stakeholders, the bar goes higher still: every factual claim must trace to a primary source the agent actually read. No reasoning from vibes. No confident filler. That requirement beats every prompt, every persona, every convenience.</p>
+<p>The deeper lesson is about <em>how</em> you enforce rules like these. &ldquo;Please don&rsquo;t send email&rdquo; is a request — and a sufficiently confused agent will eventually route around a request. So the morning unattended job doesn&rsquo;t rely on politeness: the send tools are simply absent from its toolset, with a denylist behind that, and the prompt prohibition behind that. Three independent layers, any one of which stops an outbound action. A request can be ignored. A missing tool cannot.</p>
+<p>If you take one thing from this essay: mechanical guardrails over instructed ones, anywhere the action is irreversible.</p>
+<p>Put together — the memory files, the skills, the gates — the full system looks like this:</p>
+<p><a href="/img/chief-of-staff-full-wiring.png" target="_blank" rel="noopener"><img alt="The full wiring: memory, skills, and the outbound gate" src="/img/chief-of-staff-full-wiring.png" /></a></p>
+<h2>Slower on purpose</h2>
+<p>The other honest admission: this was not free. There were weeks where doing a task through the system took longer than doing it by hand — noticeably longer — and I did it through the system anyway. Forceful teaching. Every correction became a permanent memory file the agent loads at the start of every session: never send without approval, always show task IDs with their titles, this stakeholder needs proposal-first framing. Dozens of small, hard-won rules.</p>
+<p>That&rsquo;s the trade most people refuse: pay a tax now so the assistant stops re-learning you. A year in, the assistant knows how I work the way a long-tenured chief of staff would — and the tax was paid once.</p>
+<h2>What it feels like now</h2>
+<p>My day collapses into two moves. In the evening: <em>file</em>. In the morning: <em>what&rsquo;s cooking</em>. Capture runs itself on a timer. The vault answers &ldquo;what do I know?&rdquo; with citations. Donna answers &ldquo;what do I do?&rdquo; with a calendar that respects my boundaries. And nothing leaves for another human without my eyes on the exact words.</p>
+<p>If you build your own version, the decisions that earned their keep: flip from pull to push with one unattended morning run; let the machine write freely where mistakes are cheap and gate it hard where they&rsquo;re expensive; keep state in deterministic code, never in the model; and prefer guarantees to requests for anything you can&rsquo;t take back.</p>
+<p>The architecture transfers, too. Outside the day job, I run a lighter rebuild of this for a personal project — same patterns, a different Donna, and a second agent named Jessica who owns the roadmap. The system doesn&rsquo;t care whether the inbox belongs to a product manager or a founder. That, more than anything, is what convinced me this is a pattern and not a party trick.</p>
+<p>I started this because I wanted my hours back for the only thing a PM is actually paid for: judgment. A year later, the surprise isn&rsquo;t the time saved. It&rsquo;s that the quality of my decisions went up — because every decision now starts from a brief, grounded in everything I know, prepared by a colleague who never forgets.</p>
+<p>She just doesn&rsquo;t exist.</p>
+<p><em>If you&rsquo;re working out where AI actually fits in your business — not the demos, the daily workflows — I enjoy comparing notes. My inbox is open. Donna triages it.</em></p></div>
+  <footer class="post-foot">
+    <div><div class="next-label">Previous essay</div><a class="next" href="/writing/the-cascading-defect/">The Cascading Defect</a></div>
+    <div><a href="/">← All writing</a></div>
+  </footer>
+</article>
+</main>
+<footer class="site-foot"><div class="wrap">
+  <span>© 2026 Sajan Sachdeva · London</span>
+  <nav aria-label="Elsewhere"><a href="https://www.linkedin.com/in/sajansachdeva" rel="me">LinkedIn</a><a href="/feed.xml">RSS</a></nav>
+</div></footer>
+<script>
+(function(){
+  var b=document.querySelector('.theme-toggle'); if(!b) return;
+  b.addEventListener('click',function(){
+    var r=document.documentElement, cur=r.getAttribute('data-theme');
+    if(!cur){cur=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}
+    var next=cur==='dark'?'light':'dark'; r.setAttribute('data-theme',next);
+    try{localStorage.setItem('theme',next);}catch(e){}
+  });
+})();
+</script>
+</body>
+</html>
